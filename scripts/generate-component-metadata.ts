@@ -134,6 +134,9 @@ class MetadataGenerator {
     // Apply custom overrides from component-overrides.json
     this.applyOverrides(components);
 
+    // Inject custom components not derived from wokwi-elements
+    this.injectCustomComponents(components);
+
     // Sort by category and name
     components.sort((a, b) => {
       if (a.category !== b.category) {
@@ -376,6 +379,28 @@ class MetadataGenerator {
     if (tsType.includes('boolean')) return 'boolean';
     if (tsType.includes('string')) return 'string';
     return 'string';
+  }
+
+  /**
+   * Inject custom components that are not part of wokwi-elements.
+   * These are Velxio-specific virtual peripherals (e.g., thermal printer emulator).
+   */
+  private injectCustomComponents(components: ComponentMetadata[]): void {
+    const customComponentsPath = path.resolve(__dirname, '../frontend/src/simulation/custom-components.json');
+    if (!fs.existsSync(customComponentsPath)) return;
+
+    try {
+      const custom: ComponentMetadata[] = JSON.parse(fs.readFileSync(customComponentsPath, 'utf-8'));
+      for (const comp of custom) {
+        // Don't duplicate if already present
+        if (!components.find(c => c.id === comp.id)) {
+          components.push(comp);
+          console.log(`  🔌 Injected custom component: ${comp.name} (${comp.id})`);
+        }
+      }
+    } catch (e) {
+      console.warn(`⚠️  Could not parse custom components:`, e);
+    }
   }
 
   private inferControl(tsType: string): 'text' | 'range' | 'color' | 'boolean' | 'select' {

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "thermal-printer",
+    "tagName": "wokwi-thermal-printer",
+    "name": "Thermal Printer",
+    "category": "protocol",
+    "thumbnail": "<svg width=\"64\" height=\"64\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"64\" height=\"64\" fill=\"#e0e0e0\" rx=\"4\"/><text x=\"50%\" y=\"50%\" text-anchor=\"middle\" dy=\".3em\" font-size=\"8\" fill=\"#666\">PRINTER</text></svg>",
+    "properties": [
+      {
+        "name": "deviceId",
+        "type": "string",
+        "defaultValue": "EM0000000001",
+        "control": "text"
+      },
+      {
+        "name": "sidecarUrl",
+        "type": "string",
+        "defaultValue": "http://localhost:9100",
+        "control": "text"
+      }
+    ],
+    "defaultValues": {
+      "deviceId": "EM0000000001",
+      "sidecarUrl": "http://localhost:9100"
+    },
+    "pins": [],
+    "tags": ["thermal-printer", "printer", "escpos", "receipt", "protocol"]
+  }
+]
