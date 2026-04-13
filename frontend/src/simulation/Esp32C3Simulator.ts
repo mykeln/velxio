@@ -31,6 +31,12 @@ const UART0_SIZE   = 0x400;
 const UART0_FIFO   = 0x00;   // write TX byte / read RX byte
 const UART0_STATUS = 0x1C;   // TXFIFO_CNT in bits [19:16] (0 = empty = ready)
 
+// ── UART1 @ 0x60010000 ──────────────────────────────────────────────────────
+const UART1_BASE   = 0x60010000;
+const UART1_SIZE   = 0x400;
+const UART1_FIFO   = 0x00;
+const UART1_STATUS = 0x1C;
+
 // ── GPIO @ 0x60004000 ───────────────────────────────────────────────────────
 const GPIO_BASE   = 0x60004000;
 const GPIO_SIZE   = 0x200;
@@ -119,6 +125,7 @@ export class Esp32C3Simulator {
   private running = false;
   private animFrameId = 0;
   private rxFifo: number[] = [];
+  private rxFifo1: number[] = [];
   private gpioOut = 0;
   private gpioIn  = 0;
 
@@ -157,6 +164,7 @@ export class Esp32C3Simulator {
 
   public pinManager: PinManager;
   public onSerialData: ((ch: string) => void) | null = null;
+  public onUart1Data: ((ch: string) => void) | null = null;
   public onBaudRateChange: ((baud: number) => void) | null = null;
   public onPinChangeWithTime: ((pin: number, state: boolean, timeMs: number) => void) | null = null;
 
@@ -196,6 +204,7 @@ export class Esp32C3Simulator {
     // via mmioFor's "smallest size wins" rule.
     this._registerPeripheralCatchAll();
     this._registerUart0();
+    this._registerUart1();
     this._registerGpio();
     this._registerSysTimer();
     this._registerIntMatrix();
@@ -240,6 +249,22 @@ export class Esp32C3Simulator {
       (addr, val) => {
         if (addr - UART0_BASE === UART0_FIFO) {
           this.onSerialData?.(String.fromCharCode(val & 0xFF));
+        }
+      },
+    );
+  }
+
+  private _registerUart1(): void {
+    this.core.addMmio(UART1_BASE, UART1_SIZE,
+      (addr) => {
+        const off = addr - UART1_BASE;
+        if (off === UART1_FIFO)   return this.rxFifo1.length > 0 ? (this.rxFifo1.shift()! & 0xFF) : 0;
+        if (off === UART1_STATUS) return 0;
+        return 0;
+      },
+      (addr, val) => {
+        if (addr - UART1_BASE === UART1_FIFO) {
+          this.onUart1Data?.(String.fromCharCode(val & 0xFF));
         }
       },
     );
@@ -1263,6 +1288,7 @@ export class Esp32C3Simulator {
   reset(): void {
     this.stop();
     this.rxFifo         = [];
+    this.rxFifo1        = [];
     this.gpioOut        = 0;
     this.gpioIn         = 0;
     this._stIntEna      = 0;
@@ -1278,6 +1304,12 @@ export class Esp32C3Simulator {
   serialWrite(text: string): void {
     for (let i = 0; i < text.length; i++) {
       this.rxFifo.push(text.charCodeAt(i));
+    }
+  }
+
+  uart1Write(text: string): void {
+    for (let i = 0; i < text.length; i++) {
+      this.rxFifo1.push(text.charCodeAt(i));
     }
   }
 

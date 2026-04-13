@@ -1724,6 +1724,32 @@
         "motion",
         "sensor"
       ]
+    },
+    {
+      "id": "thermal-printer",
+      "name": "Thermal Printer",
+      "category": "Protocol",
+      "description": "ESC/POS thermal receipt printer (384px wide). Captures print output and sends to sidecar.",
+      "pins": [
+        { "name": "TX", "x": 0, "y": 0 },
+        { "name": "RX", "x": 0, "y": 10 },
+        { "name": "GND", "x": 0, "y": 20 },
+        { "name": "VCC", "x": 0, "y": 30 }
+      ],
+      "properties": [
+        {
+          "name": "deviceId",
+          "type": "string",
+          "defaultValue": "EM0000000001",
+          "description": "Emulated printer device ID (EM0000 prefix)"
+        },
+        {
+          "name": "sidecarUrl",
+          "type": "string",
+          "defaultValue": "http://localhost:9100",
+          "description": "Print sidecar URL"
+        }
+      ]
     }
   ]
 }
