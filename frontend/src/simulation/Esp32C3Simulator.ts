@@ -1198,6 +1198,7 @@ export class Esp32C3Simulator {
     this.dram.fill(0);
     this.iram.fill(0);
     this.rxFifo  = [];
+    this.rxFifo1 = [];
     this.gpioOut = 0;
     this.gpioIn  = 0;
     this._periRegs.clear();
@@ -1235,6 +1236,7 @@ export class Esp32C3Simulator {
     this.dram.fill(0);
     this.iram.fill(0);
     this.rxFifo  = [];
+    this.rxFifo1 = [];
     this.gpioOut = 0;
     this.gpioIn  = 0;
     this._periRegs.clear();

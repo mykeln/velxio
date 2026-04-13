@@ -84,6 +84,10 @@ PartSimulationRegistry.register('thermal-printer', {
             rasterBytesPerRow = headerBuf[1] | (headerBuf[2] << 8);
             rasterHeight = headerBuf[3] | (headerBuf[4] << 8);
             const total = rasterBytesPerRow * rasterHeight;
+            if (total === 0) {
+              state = 'idle';
+              break;
+            }
             rasterData = new Uint8Array(total);
             rasterOffset = 0;
             state = 'raster_data';
