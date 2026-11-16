@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-04-12T03:51:05.989Z",
+  "generatedAt": "2026-04-13T23:34:11.678Z",
   "components": [
     {
       "id": "arduino-mega",
@@ -1610,6 +1610,39 @@
       ]
     },
     {
+      "id": "thermal-printer",
+      "tagName": "wokwi-thermal-printer",
+      "name": "Thermal Printer",
+      "category": "protocol",
+      "thumbnail": "<svg width=\"64\" height=\"64\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"64\" height=\"64\" fill=\"#e0e0e0\" rx=\"4\"/><text x=\"50%\" y=\"50%\" text-anchor=\"middle\" dy=\".3em\" font-size=\"8\" fill=\"#666\">PRINTER</text></svg>",
+      "properties": [
+        {
+          "name": "deviceId",
+          "type": "string",
+          "defaultValue": "EM0000000001",
+          "control": "text"
+        },
+        {
+          "name": "sidecarUrl",
+          "type": "string",
+          "defaultValue": "http://localhost:9100",
+          "control": "text"
+        }
+      ],
+      "defaultValues": {
+        "deviceId": "EM0000000001",
+        "sidecarUrl": "http://localhost:9100"
+      },
+      "pins": [],
+      "tags": [
+        "thermal-printer",
+        "printer",
+        "escpos",
+        "receipt",
+        "protocol"
+      ]
+    },
+    {
       "id": "dht22",
       "tagName": "wokwi-dht22",
       "name": "DHT22",
@@ -1723,32 +1756,6 @@
         "pir",
         "motion",
         "sensor"
-      ]
-    },
-    {
-      "id": "thermal-printer",
-      "name": "Thermal Printer",
-      "category": "Protocol",
-      "description": "ESC/POS thermal receipt printer (384px wide). Captures print output and sends to sidecar.",
-      "pins": [
-        { "name": "TX", "x": 0, "y": 0 },
-        { "name": "RX", "x": 0, "y": 10 },
-        { "name": "GND", "x": 0, "y": 20 },
-        { "name": "VCC", "x": 0, "y": 30 }
-      ],
-      "properties": [
-        {
-          "name": "deviceId",
-          "type": "string",
-          "defaultValue": "EM0000000001",
-          "description": "Emulated printer device ID (EM0000 prefix)"
-        },
-        {
-          "name": "sidecarUrl",
-          "type": "string",
-          "defaultValue": "http://localhost:9100",
-          "description": "Print sidecar URL"
-        }
       ]
     }
   ]
