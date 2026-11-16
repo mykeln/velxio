@@ -4,11 +4,11 @@
 
 [submodule "wokwi-libs/rp2040js"]
 	path = wokwi-libs/rp2040js
-	url = https://github.com/wokwi/rp2040js.git
+	url = git@github.com:mykeln/rp2040js-local.git
 
 [submodule "wokwi-libs/wokwi-elements"]
 	path = wokwi-libs/wokwi-elements
-	url = https://github.com/wokwi/wokwi-elements.git
+	url = git@github.com:mykeln/wokwi-elements-local.git
 
 [submodule "wokwi-libs/wokwi-features"]
 	path = wokwi-libs/wokwi-features
